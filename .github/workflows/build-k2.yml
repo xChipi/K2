@@ -1,0 +1,32 @@
+# Builds the K2 app on GitHub's Windows runners and uploads it as a downloadable
+# artifact. Mirrors steps 2-4 of Installer/build-installer.bat (no Inno Setup installer).
+name: Build K2
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish K2.App (win-x86, self-contained)
+        run: dotnet publish K2.App/K2.App.csproj -c Release -r win-x86 --self-contained true -p:Platform=x86 -o publish/K2.App
+
+      - name: Publish K2.DisplayPad.Satellite (win-x64, self-contained)
+        run: dotnet publish K2.DisplayPad.Satellite/K2.DisplayPad.Satellite.csproj -c Release -r win-x64 --self-contained true -p:Platform=x64 -o publish/K2.App/Satellite
+
+      - name: Publish K2.DisplayPad (win-x64, self-contained)
+        run: dotnet publish K2.DisplayPad/K2.DisplayPad.csproj -c Release -r win-x64 --self-contained true -p:Platform=x64 -o publish/K2.App/DisplayPad
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: K2-${{ github.ref_name }}-${{ github.sha }}
+          path: publish/K2.App
+          retention-days: 30
