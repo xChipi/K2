@@ -23,10 +23,14 @@ internal static class ImageCropDialog
     /// </summary>
     /// <param name="bakeRoundedCorners">Pass true when the target is a single rounded-bezel
     /// key screen (e.g. Everest NDK) — see <see cref="CropEditor"/>'s constructor doc.</param>
+    /// <param name="animateGifs">Pass true to play an animated GIF live in the editor and get
+    /// a <see cref="Services.CroppedGifRef"/> sidecar path back instead of a baked PNG (the
+    /// Media Dock GIF player uses this — see MainWindow.DisplayDialGif.cs).</param>
     public static string? Show(Window owner, string sourcePath, int targetW, int targetH, string title,
-        bool bakeRoundedCorners = false)
+        bool bakeRoundedCorners = false, bool animateGifs = false)
     {
-        var editor = new CropEditor(targetW, targetH, bakeRoundedCorners: bakeRoundedCorners);
+        var editor = new CropEditor(targetW, targetH, animateGifs: animateGifs,
+                                    bakeRoundedCorners: bakeRoundedCorners);
         if (!editor.Load(sourcePath)) return null;
 
         string? resultPath = null;

@@ -2023,6 +2023,10 @@
                                                                     <Button x:Name="BtnDialLoadImage" Content="{loc:Get dial_load_image}"
                                                                     Padding="8,2" Margin="5,10,0,0" Click="BtnDialLoadImage_Click"
                                                                     Style="{StaticResource K2IconButton}" Tag="&#xE91B;" Height="25" Width="180" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                                                    <!-- Visible only while the experimental Media Dock GIF slideshow runs (MainWindow.DisplayDialGif.cs) -->
+                                                                    <Button x:Name="BtnDialStopGif" Content="{loc:Get dial_gif_stop}"
+                                                                    Padding="8,2" Margin="5,10,0,0" Click="BtnDialStopGif_Click" Visibility="Collapsed"
+                                                                    Style="{StaticResource K2IconButton}" Tag="&#xE71A;" Height="25" Width="180" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
                                                                 </StackPanel>
 

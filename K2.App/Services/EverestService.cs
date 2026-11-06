@@ -1862,6 +1862,33 @@ public sealed class EverestService : IDisposable
         }
     }
 
+    /// <summary>
+    /// Uploads an in-memory bitmap as the Media Dock screensaver picture (same
+    /// <c>StartPicUpdate</c> flash write as <see cref="UploadMMDockScreensaver"/>, just
+    /// without a file round-trip). Used by the Display Dial GIF player
+    /// (MainWindow.DisplayDialGif.cs), which pre-renders every frame once up front.
+    /// Returns false when the firmware rejects the write, e.g. while it is still busy
+    /// committing the previous picture to flash.
+    /// </summary>
+    public bool UploadMMDockScreensaverBitmap(System.Drawing.Bitmap bitmap)
+    {
+        lock (_sdkLock)
+        try
+        {
+            bool ok = EverestImageUploader.UploadBitmap(
+                bitmap,
+                EverestImageUploader.PicTarget.MMDockScreensaver,
+                picSlot: 1);
+            App.WriteLog($"[Everest.UploadMMDockScreensaverBitmap] -> {ok}");
+            return ok;
+        }
+        catch (Exception ex)
+        {
+            App.WriteLog("[Everest.UploadMMDockScreensaverBitmap] threw: " + ex);
+            return false;
+        }
+    }
+
     /// <summary>Full reset of the Media Dock.</summary>
     public bool ResetMMDock()
     {

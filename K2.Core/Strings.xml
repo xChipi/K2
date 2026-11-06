@@ -832,6 +832,10 @@ Like and Save/Remove-from-playlist are NOT available: Spotify blocks the library
   <string name="dial_pcinfo_ram">PC Info - RAM</string>
   <string name="dial_load_image">Load image</string>
   <string name="dial_load_image_title">Choose screensaver image (240×204 px)</string>
+  <string name="dial_gif_mode_title">Animated GIF on the Media Dock (experimental)</string>
+  <string name="dial_gif_mode_text">This GIF is animated. The Media Dock can only store one picture, and every picture is a flash write that takes several seconds. Animation is therefore only possible as a slow slideshow: up to {0} frames, at most {1} writes per run, at least {2} s apart. Each frame wears the dock's flash memory a little, so the run stops on its own.&#10;&#10;Yes = start the slideshow (experimental)&#10;No = use the first frame as a static picture&#10;Cancel = abort</string>
+  <string name="dial_gif_decode_failed">The GIF could not be read.</string>
+  <string name="dial_gif_stop">Stop GIF</string>
   <string name="dial_clock_section">Clock type</string>
   <string name="dial_clock_label">Format:</string>
   <string name="dial_clock_style_label">Style:</string>

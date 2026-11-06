@@ -301,6 +301,7 @@ public partial class MainWindow
     /// Closed handler alongside CleanupMediaDock.</summary>
     private void CleanupDisplayDial()
     {
+        CleanupDialGif();
         _dialClockTimer?.Stop();
         _dialClockTimer = null;
         SystemEvents.SessionSwitch -= OnDialSessionSwitch;
@@ -718,15 +719,33 @@ public partial class MainWindow
         var dlg = new OpenFileDialog
         {
             Title  = Loc.Get("dial_load_image_title"),
-            Filter = "Images (*.png;*.jpg;*.jpeg;*.bmp)|*.png;*.jpg;*.jpeg;*.bmp|All files|*.*"
+            Filter = "Images (*.png;*.jpg;*.jpeg;*.bmp;*.gif)|*.png;*.jpg;*.jpeg;*.bmp;*.gif|All files|*.*"
         };
         if (dlg.ShowDialog(this) != true) return;
 
-        string? cropped = ImageCropDialog.Show(this, dlg.FileName, W, H, Loc.Get("crop_title", W, H));
+        // Animated GIF: offer the experimental slideshow (MainWindow.DisplayDialGif.cs) or a
+        // static picture. The static path is the unchanged flow below — CropEditor in its
+        // default mode bakes frame 0 into a PNG.
+        bool animate = false;
+        if (DpGifAnimator.IsAnimatedGif(dlg.FileName))
+        {
+            bool? mode = AskDialGifMode();
+            if (mode is null) return;
+            animate = mode.Value;
+        }
+
+        string? cropped = ImageCropDialog.Show(this, dlg.FileName, W, H, Loc.Get("crop_title", W, H),
+                                               animateGifs: animate);
         if (cropped is null) return;
         string picked = cropped;
 
         if (_everest is null) return;
+        if (animate)
+        {
+            StartDialGif(picked);
+            return;
+        }
+        StopDialGif();
         // StartPicUpdate (the SDK's picture-upload export) is synchronous and takes ~2s —
         // same blocking contract as the Everest numpad display keys, see NdkApplyImage's
         // doc comment (MainWindow.NumpadDisplayKeys.cs).
@@ -742,6 +761,7 @@ public partial class MainWindow
     private void BtnDialReset_Click(object sender, RoutedEventArgs e)
     {
         if (_everest is null) return;
+        StopDialGif();
         bool ok = _everest.ResetMMDock();
         LogEverest($"[DIAL] ResetMMDock -> {ok}");
         if (ok) ReadDialFromDevice();

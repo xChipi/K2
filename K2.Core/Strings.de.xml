@@ -631,6 +631,10 @@ Wiedergabe/Pause, Weiter/Zurück, Zufall, Wiederholen und Lautstärke funktionie
   <string name="dial_pcinfo_ram">PC-Info - RAM</string>
   <string name="dial_load_image">Bild laden</string>
   <string name="dial_load_image_title">Bildschirmschoner-Bild auswählen (240×204 px)</string>
+  <string name="dial_gif_mode_title">Animiertes GIF auf dem Media Dock (experimentell)</string>
+  <string name="dial_gif_mode_text">Dieses GIF ist animiert. Das Media Dock kann nur ein Bild speichern, und jedes Bild ist ein Flash-Schreibvorgang, der mehrere Sekunden dauert. Eine Animation ist daher nur als langsame Diashow möglich: bis zu {0} Bilder, höchstens {1} Schreibvorgänge pro Durchlauf, mindestens {2} s Abstand. Jedes Bild nutzt den Flash-Speicher des Docks etwas ab, deshalb stoppt der Durchlauf von selbst.&#10;&#10;Ja = Diashow starten (experimentell)&#10;Nein = erstes Bild als statisches Bild verwenden&#10;Abbrechen = abbrechen</string>
+  <string name="dial_gif_decode_failed">Das GIF konnte nicht gelesen werden.</string>
+  <string name="dial_gif_stop">GIF stoppen</string>
   <string name="dial_clock_section">Uhrentyp</string>
   <string name="dial_clock_label">Uhr:</string>
   <string name="dial_clock_style_label">Stil:</string>
